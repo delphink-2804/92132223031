@@ -1,1 +1,25 @@
+// Logging Middleware/logger.js
+export async function Log(stack, level, packageName, message) {
+  const logData = {
+    stack,
+    level,
+    package: packageName,
+    message,
+  };
 
+  try {
+    const response = await fetch('http://20.244.56.144/evaluation-service/logs', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJNYXBDbGFpbXMiOnsiYXVkIjoiaHR0cDovLzIwLjI0NC41Ni4xNDQvZXZhbHVhdGlvbi1zZXJ2aWNlIiwiZW1haWwiOiJkZWxwaGluazIyaXRAcHNuYWNldC5lZHUuaW4iLCJleHAiOjE3NTQxMTU1NDYsImlhdCI6MTc1NDExNDY0NiwiaXNzIjoiQWZmb3JkIE1lZGljYWwgVGVjaG5vbG9naWVzIFByaXZhdGUgTGltaXRlZCIsImp0aSI6IjdmZDVjMGVkLTcyMGQtNDkyYy04Mzk5LTg4YzBhNWU1Y2Y4ZCIsImxvY2FsZSI6ImVuLUlOIiwibmFtZSI6ImRlbHBoaW4gayIsInN1YiI6ImIzMDU4NjJkLWJjZGEtNDRkZC04ZGQ2LTdhZTJiMDdjMzdlNCJ9LCJlbWFpbCI6ImRlbHBoaW5rMjJpdEBwc25hY2V0LmVkdS5pbiIsIm5hbWUiOiJkZWxwaGluIGsiLCJyb2xsTm8iOiI5MjEzMjIyMzAzMSIsImFjY2Vzc0NvZGUiOiJyQlBmU1MiLCJjbGllbnRJRCI6ImIzMDU4NjJkLWJjZGEtNDRkZC04ZGQ2LTdhZTJiMDdjMzdlNCIsImNsaWVudFNlY3JldCI6IkdtcGtDbWRaelBBR1FId1IifQ.sCTP3cEN5JXWHOM3XtykJBZJMQWdI-oEUFVfRuBbCKk', // Replace with actual token if needed
+      },
+      body: JSON.stringify(logData),
+    });
+
+    const result = await response.json();
+    console.log("Log Response:", result);
+  } catch (error) {
+    console.error("Logging Failed:", error);
+  }
+}
